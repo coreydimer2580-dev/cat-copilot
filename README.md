@@ -1,0 +1,26 @@
+# C@T Copilot
+
+A small, privacy-first starter app that turns conversation text into a reviewable task list.
+
+## Run locally
+
+Requires Node.js 18 or newer. From the project directory:
+
+```sh
+npm start
+```
+
+Open <http://localhost:3000>.
+
+## What it does
+
+- Accepts pasted conversation text or a local `.txt`, `.md`, or `.json` file (up to 5 MB).
+- Splits text into sentences and uses simple local rules to suggest task titles.
+- Lets you add, complete, and remove tasks, and export the list as JSON.
+- Stores task data in the browser's local storage.
+
+## Important privacy and capability limits
+
+This app does **not** access your ChatGPT/Copilot account history, other services, private messages, or the internet. It cannot discover everything you have ever said. To include past conversations, export or copy data from accounts you own and are authorized to use, then import that file yourself. The starter app processes the text locally in your browser; it does not upload conversations. Avoid importing other people's private data without their permission.
+
+Task detection is a basic heuristic, not an AI model; review suggestions before relying on them. This version does not execute tasks, modify itself, or perform external actions.

@@ -1,0 +1,12 @@
+{
+  "name": "cat-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A privacy-first conversation-to-task planner for C@T Copilot.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
