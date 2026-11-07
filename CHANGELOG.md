@@ -4,6 +4,7 @@ Notable changes to C@T Copilot are recorded here.
 
 ## Unreleased
 
-- Added role suggestions for human review, local/private work, coding, research, writing, and general assistance.
-- Added editable task role dropdowns; these are planning labels only and do not send data to any AI provider.
-- Clarified session lifetime, privacy boundaries, and external-provider limitations.
+- Added a project board with backlog, in-progress, waiting, and done columns.
+- Added task stage tracking and a memory timeline for recent source-based activity.
+- Added role and category filters for board views.
+- Kept all external AI provider integrations disabled by default until explicit user approval and credentials are configured.
