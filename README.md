@@ -18,6 +18,7 @@ Open <http://localhost:3000>.
 - Locally identify task-like sentences and present them as drafts for your approval; suggestions are not saved until you choose **Add task**.
 - Automatically suggest a task category, priority, and assistant role: human review, local/private work, coding, research, writing, or general assistance.
 - Track each task with a stage: backlog, in progress, waiting, or done.
+- Assign a blocker state such as waiting for approval, evidence, input, or blocked.
 - Use a project board and keep a memory timeline of recent tasks and source activity.
 - Change task role and priority, group by category and role, search, filter by completion, and export tasks as JSON.
 - Store task data in this browser's local storage.

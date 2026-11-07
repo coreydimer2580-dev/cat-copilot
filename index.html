@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10131c">
-  <meta name="description" content="C@T Copilot keeps tasks, memory, and stage history in one private review-first workspace.">
+  <meta name="description" content="C@T Copilot keeps task memory, project stages, dependencies, and a review-first workflow in one local planner.">
   <title>C@T Copilot — Memory-first task planner</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -18,7 +18,8 @@
     <section class="intro">
       <p class="eyebrow">YOUR IDEAS, ORGANIZED</p>
       <h1>Task memory,<br><span>board flow, and safe review.</span></h1>
-      <p class="lede">Import text you’re authorized to use. Each task keeps source details, stage, and routing so your app feels like a real memory-first planner instead of a flat list.</p>
+      <p class="lede">Import text you’re authorized to use. Each task keeps source details, stage, dependencies, and routing so your app feels like a real memory-first planner instead of a flat list.</p>
+      <div class="notice"><strong>Private by default</strong><p>This app cannot fetch private conversation history or keep running after you close it. Imported text and tasks stay in this browser. Assistant routing labels are planning helpers only; no provider is connected and nothing is sent to an AI service.</p></div>
       <div class="stats" aria-label="Task progress">
         <div><strong id="total-stat">0</strong><span>Total tasks</span></div>
         <div><strong id="open-stat">0</strong><span>Open</span></div>
@@ -54,12 +55,8 @@
         <div class="panel-heading">
           <div><p class="eyebrow">STEP 2</p><h2>Project board</h2></div>
           <div class="board-controls">
-            <select id="role-filter" aria-label="Filter tasks by assistant role">
-              <option value="all">All roles</option>
-            </select>
-            <select id="category-filter" aria-label="Filter tasks by category">
-              <option value="all">All categories</option>
-            </select>
+            <select id="role-filter" aria-label="Filter tasks by assistant role"><option value="all">All roles</option></select>
+            <select id="category-filter" aria-label="Filter tasks by category"><option value="all">All categories</option></select>
           </div>
         </div>
         <div id="board" class="board" aria-live="polite"></div>
@@ -94,6 +91,13 @@
           <div><p class="eyebrow">STEP 4</p><h2>Memory timeline</h2></div>
         </div>
         <ul id="timeline" class="timeline"></ul>
+      </div>
+
+      <div class="panel dependency-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">STEP 5</p><h2>Dependencies & blockers</h2></div>
+        </div>
+        <div id="dependency-summary" class="dependency-summary"></div>
       </div>
 
       <p class="footnote">Suggestions are heuristic and may miss context. Check facts carefully, especially for legal, insurance, or financial matters. No external AI provider is connected by default.</p>

@@ -2,6 +2,14 @@ const STORAGE_KEY = 'cat-copilot-tasks-v1';
 const stages = ['backlog', 'in-progress', 'waiting', 'done'];
 const stageLabels = { backlog: 'Backlog', 'in-progress': 'In progress', waiting: 'Waiting', done: 'Done' };
 const roles = ['Human review', 'Local/private work', 'Coding assistant', 'Research assistant', 'Writing assistant', 'General assistant'];
+const blockers = ['none', 'waiting-for-approval', 'waiting-for-evidence', 'waiting-for-input', 'blocked'];
+const blockerLabels = {
+  none: 'None',
+  'waiting-for-approval': 'Waiting for approval',
+  'waiting-for-evidence': 'Waiting for evidence',
+  'waiting-for-input': 'Waiting for input',
+  blocked: 'Blocked'
+};
 const textInput = document.querySelector('#conversation');
 const fileInput = document.querySelector('#file-input');
 const taskList = document.querySelector('#tasks');
@@ -12,6 +20,7 @@ const suggestionsList = document.querySelector('#suggestions');
 const suggestionCount = document.querySelector('#suggestion-count');
 const board = document.querySelector('#board');
 const timeline = document.querySelector('#timeline');
+const dependencySummary = document.querySelector('#dependency-summary');
 const roleFilter = document.querySelector('#role-filter');
 const categoryFilter = document.querySelector('#category-filter');
 let tasks = loadTasks();
@@ -28,7 +37,9 @@ function loadTasks() {
       priority: ['low', 'normal', 'high'].includes(t.priority) ? t.priority : 'normal',
       role: roles.includes(t.role) ? t.role : recommendRole(t.title),
       stage: stages.includes(t.stage) ? t.stage : 'backlog',
+      blocker: blockers.includes(t.blocker) ? t.blocker : 'none',
       source: t.source || 'manual',
+      dependsOn: Array.isArray(t.dependsOn) ? t.dependsOn : [],
       createdAt: t.createdAt || new Date().toISOString(),
       memory: t.memory || { sourceText: '', sentence: t.title }
     })) : [];
@@ -119,6 +130,20 @@ function makeStageSelect(value, label) {
   return select;
 }
 
+function makeBlockerSelect(value, label) {
+  const select = document.createElement('select');
+  select.className = 'blocker-select';
+  select.setAttribute('aria-label', label);
+  blockers.forEach(blocker => {
+    const option = document.createElement('option');
+    option.value = blocker;
+    option.textContent = blockerLabels[blocker];
+    option.selected = blocker === value;
+    select.append(option);
+  });
+  return select;
+}
+
 function refreshFilters() {
   const categories = Array.from(new Set(tasks.map(t => t.category))).sort();
   const roleList = Array.from(new Set(tasks.map(t => t.role))).sort();
@@ -128,6 +153,37 @@ function refreshFilters() {
 
   if (!roleList.includes(roleFilter.value)) roleFilter.value = 'all';
   if (!categories.includes(categoryFilter.value)) categoryFilter.value = 'all';
+}
+
+function renderDependencySummary() {
+  dependencySummary.replaceChildren();
+
+  const active = tasks.filter(t => t.blocker !== 'none' || t.dependsOn.length > 0).slice(0, 10);
+  if (!active.length) {
+    const empty = document.createElement('div');
+    empty.className = 'dependency-empty';
+    empty.textContent = 'No blockers or dependencies yet.';
+    dependencySummary.append(empty);
+    return;
+  }
+
+  active.forEach(task => {
+    const card = document.createElement('div');
+    card.className = 'dependency-card';
+
+    const title = document.createElement('strong');
+    title.textContent = task.title;
+
+    const detail = document.createElement('div');
+    detail.className = 'dependency-detail';
+    detail.textContent = `Role: ${task.role} · Stage: ${stageLabels[task.stage]} · Blocker: ${blockerLabels[task.blocker]}`;
+
+    const depText = document.createElement('small');
+    depText.textContent = task.dependsOn.length ? `Depends on: ${task.dependsOn.join(', ')}` : 'No direct dependency';
+
+    card.append(title, detail, depText);
+    dependencySummary.append(card);
+  });
 }
 
 document.querySelector('#analyze').addEventListener('click', () => {
@@ -146,7 +202,9 @@ document.querySelector('#analyze').addEventListener('click', () => {
       priority: suggestedPriority(title),
       role: recommendRole(title),
       stage: 'backlog',
+      blocker: 'none',
       source: 'conversation',
+      dependsOn: [],
       createdAt: new Date().toISOString(),
       memory: { sourceText: textInput.value, sentence: title }
     }));
@@ -198,7 +256,9 @@ document.querySelector('#add-form').addEventListener('submit', event => {
     priority: 'normal',
     role: recommendRole(title),
     stage: 'backlog',
+    blocker: 'none',
     source: 'manual',
+    dependsOn: [],
     createdAt: new Date().toISOString(),
     memory: { sourceText: title, sentence: title }
   });
@@ -427,6 +487,14 @@ function render() {
     source.className = 'source';
     source.textContent = `From: ${task.source}`;
 
+    const blocker = makeBlockerSelect(task.blocker, `Blocker state for ${task.title}`);
+    blocker.addEventListener('change', () => {
+      task.blocker = blocker.value;
+      task.stage = task.blocker === 'none' ? task.stage : 'waiting';
+      save();
+      render();
+    });
+
     body.append(title, meta, source);
 
     const role = makeRoleSelect(task.role, `Assistant role for ${task.title}`);
@@ -441,6 +509,7 @@ function render() {
     stage.addEventListener('change', () => {
       task.stage = stage.value;
       task.done = task.stage === 'done';
+      if (task.stage !== 'waiting' && task.blocker !== 'none') task.blocker = 'none';
       save();
       render();
     });
@@ -467,7 +536,7 @@ function render() {
       render();
     }, `Remove ${task.title}`);
 
-    li.append(checkbox, body, role, stage, priority, remove);
+    li.append(checkbox, body, role, stage, blocker, priority, remove);
     taskList.append(li);
   });
 
@@ -481,6 +550,7 @@ function render() {
 
   renderBoard();
   renderTimeline();
+  renderDependencySummary();
   refreshFilters();
 }
 
