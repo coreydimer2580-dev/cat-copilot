@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10131c">
+  <meta name="description" content="Turn conversation text into an organized, reviewable task list.">
   <title>C@T Copilot — Conversation to tasks</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -18,21 +19,28 @@
       <h1>Turn conversations<br><span>into a clear next step.</span></h1>
       <p class="lede">Bring in conversation text you’re allowed to use. C@T Copilot separates it into sentences and drafts actionable tasks for you to review.</p>
       <div class="notice"><strong>About your conversation history</strong><p>This starter app cannot access your account history or search the internet for everything you’ve ever said. Import an export or paste text from sources you control. Nothing is uploaded.</p></div>
+      <div class="stats" aria-label="Task progress"><div><strong id="total-stat">0</strong><span>Total tasks</span></div><div><strong id="open-stat">0</strong><span>Open</span></div><div><strong id="done-stat">0</strong><span>Completed</span></div></div>
     </section>
     <section class="workspace" aria-label="Conversation task planner">
       <div class="panel import-panel">
         <div class="panel-heading"><div><p class="eyebrow">STEP 1</p><h2>Bring in conversation text</h2></div><label class="upload-button" for="file-input">Choose a text file</label><input id="file-input" type="file" accept=".txt,.md,.json,text/plain,application/json,text/markdown" hidden></div>
         <label class="sr-only" for="conversation">Conversation text</label>
         <textarea id="conversation" placeholder="Paste conversation text here…&#10;&#10;For example: “Please create a task to import my project data.”"></textarea>
-        <div class="actions"><span class="hint">Text stays in your browser. Review before saving tasks.</span><button id="analyze" class="primary">Find task ideas <span aria-hidden="true">→</span></button></div>
+        <div class="actions"><span class="hint">Text stays in your browser. Review suggestions before saving tasks.</span><button id="analyze" class="primary">Find task ideas <span aria-hidden="true">→</span></button></div>
       </div>
+      <section id="suggestions-panel" class="panel suggestions-panel" hidden aria-label="Task suggestions">
+        <div class="panel-heading"><div><p class="eyebrow">REVIEW FIRST</p><h2>Suggestions <span id="suggestion-count" class="count">0</span></h2></div><button id="dismiss-all" class="quiet">Dismiss all</button></div>
+        <p class="hint suggestion-hint">These are drafts, not actions. Add only the tasks you want to keep.</p>
+        <ul id="suggestions" class="suggestions"></ul>
+      </section>
       <div class="panel task-panel">
         <div class="panel-heading task-heading"><div><p class="eyebrow">STEP 2</p><h2>Your task list <span id="task-count" class="count">0</span></h2></div><div class="task-actions"><button id="export" class="quiet">Export</button><button id="clear" class="quiet danger">Clear all</button></div></div>
-        <p id="empty-state" class="empty">Your reviewed tasks will appear here. Analyze text above or add a task manually.</p>
+        <div class="filters"><label class="sr-only" for="task-search">Search tasks</label><input id="task-search" type="search" placeholder="Search tasks…"><label class="sr-only" for="task-filter">Filter tasks</label><select id="task-filter"><option value="all">All tasks</option><option value="open">Open</option><option value="done">Completed</option></select></div>
+        <p id="empty-state" class="empty">Your tasks will appear here. Analyze text above or add a task manually.</p>
         <ul id="tasks" class="tasks" aria-live="polite"></ul>
         <form id="add-form" class="add-form"><label class="sr-only" for="new-task">New task</label><input id="new-task" maxlength="180" placeholder="Add a task yourself…"><button type="submit" aria-label="Add task">＋</button></form>
       </div>
-      <p class="footnote">Task suggestions are generated locally using simple rules. They may miss context or misinterpret a sentence—please review them.</p>
+      <p class="footnote">Suggestions are generated locally using simple rules. They may miss context or misinterpret a sentence—please review them.</p>
     </section>
   </main>
   <script src="app.js" defer></script>
