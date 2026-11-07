@@ -16,12 +16,14 @@ Open <http://localhost:3000>.
 
 - Paste conversation text or choose a local `.txt`, `.md`, or `.json` file (up to 5 MB).
 - Locally identify task-like sentences and present them as drafts for your approval; suggestions are not saved until you choose **Add task**.
-- Categorize tasks, set low/normal/high priority, search, filter by completion, and see progress counts.
-- Add, complete, remove, and export tasks as JSON.
+- Automatically suggest a task category, priority, and assistant role: human review, local/private work, coding, research, writing, or general assistance.
+- Change task role and priority, search, filter by completion, see progress counts, and export tasks as JSON.
 - Store task data in this browser's local storage.
 
-## Important privacy and capability limits
+## Privacy and capability limits
 
-This app does **not** access your ChatGPT/Copilot account history, Google AI, other services, private messages, or the internet. It cannot discover everything you have ever said. To include past conversations, export or copy data from accounts you own and are authorized to use, then import that file yourself. The starter app processes the text locally in your browser; it does not upload conversations. Avoid importing other people's private data without their permission.
+This app does **not** access your ChatGPT/Copilot account history, Google AI, Grok, other services, private messages, or the internet. It cannot run after this browser/session closes. Import only exports and records you are authorized to use. Imported text and task data remain in this browser; this app currently sends nothing to an AI provider.
 
-Task detection is a basic heuristic, not an AI model; review suggestions before relying on them. This version does not execute tasks, modify itself, or perform external actions.
+Assistant roles are local planning labels, not model integrations. No AI providers are connected, no API keys are handled, and no tasks are automatically sent to a service. Future provider integrations should use official APIs, server-side secrets, transparent cost/usage controls, and user approval before sharing sensitive data or taking external actions. Local processing avoids provider API calls but still uses your device and electricity.
+
+Task detection is a basic heuristic, not an AI model; it can miss sentences or misinterpret context. Review suggestions and check facts, especially for legal, insurance, medical, or financial matters. Do not import other people's private data without permission.

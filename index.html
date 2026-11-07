@@ -17,8 +17,8 @@
     <section class="intro">
       <p class="eyebrow">YOUR IDEAS, ORGANIZED</p>
       <h1>Turn conversations<br><span>into a clear next step.</span></h1>
-      <p class="lede">Bring in conversation text you’re allowed to use. C@T Copilot separates it into sentences and drafts actionable tasks for you to review.</p>
-      <div class="notice"><strong>About your conversation history</strong><p>This starter app cannot access your account history or search the internet for everything you’ve ever said. Import an export or paste text from sources you control. Nothing is uploaded.</p></div>
+      <p class="lede">Import text you’re authorized to use. C@T Copilot drafts task ideas for your review and suggests a suitable kind of assistant for each task.</p>
+      <div class="notice"><strong>Private by default</strong><p>This app cannot fetch private conversation history or keep running after you close it. Imported text and tasks stay in this browser. AI role assignments are planning labels only; no provider is connected and nothing is sent to an AI service.</p></div>
       <div class="stats" aria-label="Task progress"><div><strong id="total-stat">0</strong><span>Total tasks</span></div><div><strong id="open-stat">0</strong><span>Open</span></div><div><strong id="done-stat">0</strong><span>Completed</span></div></div>
     </section>
     <section class="workspace" aria-label="Conversation task planner">
@@ -30,7 +30,7 @@
       </div>
       <section id="suggestions-panel" class="panel suggestions-panel" hidden aria-label="Task suggestions">
         <div class="panel-heading"><div><p class="eyebrow">REVIEW FIRST</p><h2>Suggestions <span id="suggestion-count" class="count">0</span></h2></div><button id="dismiss-all" class="quiet">Dismiss all</button></div>
-        <p class="hint suggestion-hint">These are drafts, not actions. Add only the tasks you want to keep.</p>
+        <p class="hint suggestion-hint">Draft only. The suggested role is a starting point, not an automatic AI handoff.</p>
         <ul id="suggestions" class="suggestions"></ul>
       </section>
       <div class="panel task-panel">
@@ -40,7 +40,7 @@
         <ul id="tasks" class="tasks" aria-live="polite"></ul>
         <form id="add-form" class="add-form"><label class="sr-only" for="new-task">New task</label><input id="new-task" maxlength="180" placeholder="Add a task yourself…"><button type="submit" aria-label="Add task">＋</button></form>
       </div>
-      <p class="footnote">Suggestions are generated locally using simple rules. They may miss context or misinterpret a sentence—please review them.</p>
+      <p class="footnote">Suggestions are heuristic and may miss context. Check facts, especially sensitive legal, insurance, or financial details. Do not send sensitive records to third-party AI services unless you understand and approve their data handling.</p>
     </section>
   </main>
   <script src="app.js" defer></script>

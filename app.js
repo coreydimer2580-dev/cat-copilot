@@ -7,6 +7,7 @@ const count = document.querySelector('#task-count');
 const suggestionsPanel = document.querySelector('#suggestions-panel');
 const suggestionsList = document.querySelector('#suggestions');
 const suggestionCount = document.querySelector('#suggestion-count');
+const roles = ['Human review', 'Local/private work', 'Coding assistant', 'Research assistant', 'Writing assistant', 'General assistant'];
 let tasks = loadTasks();
 let suggestions = [];
 
@@ -15,7 +16,8 @@ function loadTasks() {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     return Array.isArray(saved) ? saved.filter(t => t && typeof t.title === 'string').map(t => ({
       id: t.id || crypto.randomUUID(), title: t.title, done: Boolean(t.done),
-      category: t.category || categorize(t.title), priority: ['low', 'normal', 'high'].includes(t.priority) ? t.priority : 'normal'
+      category: t.category || categorize(t.title), priority: ['low', 'normal', 'high'].includes(t.priority) ? t.priority : 'normal',
+      role: roles.includes(t.role) ? t.role : recommendRole(t.title)
     })) : [];
   } catch { return []; }
 }
@@ -36,8 +38,16 @@ function categorize(title) {
   if (/\b(import|export|data|history|recover|restore)\b/i.test(title)) return 'Data';
   if (/\b(secur|privacy|approval|consent|guard|permission)\b/i.test(title)) return 'Safety';
   if (/\b(test|fix|bug|review|validate)\b/i.test(title)) return 'Quality';
-  if (/\b(build|create|design|interface|chat|app|assistant)\b/i.test(title)) return 'Product';
+  if (/\b(build|create|design|interface|chat|app|assistant|code|implement)\b/i.test(title)) return 'Product';
   return 'General';
+}
+function recommendRole(title) {
+  if (/\b(send|submit|pay|delete|approve|legal|claim|insurance|medical|financial|external action)\b/i.test(title)) return 'Human review';
+  if (/\b(code|coding|build|debug|implement|software|app|test|deploy|automate)\b/i.test(title)) return 'Coding assistant';
+  if (/\b(research|find|search|compare|verify|source|investigate|evidence)\b/i.test(title)) return 'Research assistant';
+  if (/\b(write|draft|summarize|letter|document|explain)\b/i.test(title)) return 'Writing assistant';
+  if (/\b(private|local|sensitive|personal|data|history|recover)\b/i.test(title)) return 'Local/private work';
+  return 'General assistant';
 }
 function suggestedPriority(title) {
   return /\b(critical|urgent|security|privacy|recover|restore|block|prevent)\b/i.test(title) ? 'high' : 'normal';
@@ -48,12 +58,18 @@ function makeButton(label, className, action, ariaLabel = label) {
   button.setAttribute('aria-label', ariaLabel); button.addEventListener('click', action);
   return button;
 }
+function makeRoleSelect(value, label) {
+  const select = document.createElement('select'); select.className = 'role-select';
+  select.setAttribute('aria-label', label);
+  roles.forEach(role => { const option = document.createElement('option'); option.value = role; option.textContent = role; option.selected = role === value; select.append(option); });
+  return select;
+}
 
 document.querySelector('#analyze').addEventListener('click', () => {
   const sentences = sentenceList(textInput.value);
   const existing = new Set([...tasks.map(t => t.title.toLowerCase()), ...suggestions.map(t => t.title.toLowerCase())]);
   suggestions = sentences.filter(isActionable).map(taskTitle).filter(Boolean).filter(title => !existing.has(title.toLowerCase()))
-    .map(title => ({ id: crypto.randomUUID(), title, category: categorize(title), priority: suggestedPriority(title) }));
+    .map(title => ({ id: crypto.randomUUID(), title, category: categorize(title), priority: suggestedPriority(title), role: recommendRole(title) }));
   if (!suggestions.length) {
     alert(sentences.length ? 'No new task-like sentences were found. You can add a task manually.' : 'Paste or upload conversation text first.');
     renderSuggestions(); return;
@@ -74,7 +90,7 @@ document.querySelector('#add-form').addEventListener('submit', event => {
   const input = document.querySelector('#new-task');
   const title = input.value.trim();
   if (!title) return;
-  tasks.unshift({ id: crypto.randomUUID(), title, done: false, category: categorize(title), priority: 'normal' });
+  tasks.unshift({ id: crypto.randomUUID(), title, done: false, category: categorize(title), priority: 'normal', role: recommendRole(title) });
   input.value = ''; save(); render();
 });
 document.querySelector('#task-search').addEventListener('input', render);
@@ -95,8 +111,11 @@ function renderSuggestions() {
     const body = document.createElement('div'); body.className = 'suggestion-body';
     const title = document.createElement('p'); title.className = 'suggestion-title'; title.textContent = item.title;
     const meta = document.createElement('span'); meta.className = 'metadata'; meta.textContent = `${item.category} · ${item.priority} priority`;
+    const role = makeRoleSelect(item.role, `Suggested assistant role for ${item.title}`);
+    role.addEventListener('change', () => { item.role = role.value; });
     body.append(title, meta);
     const actions = document.createElement('div'); actions.className = 'suggestion-actions';
+    actions.append(role);
     actions.append(makeButton('Add task', 'small-primary', () => {
       tasks.unshift({ ...item, done: false }); suggestions = suggestions.filter(s => s.id !== item.id); save(); render(); renderSuggestions();
     }));
@@ -110,7 +129,7 @@ function render() {
   taskList.replaceChildren();
   const query = document.querySelector('#task-search').value.trim().toLowerCase();
   const filter = document.querySelector('#task-filter').value;
-  const visible = tasks.filter(task => (!query || `${task.title} ${task.category}`.toLowerCase().includes(query)) && (filter === 'all' || (filter === 'done') === task.done));
+  const visible = tasks.filter(task => (!query || `${task.title} ${task.category} ${task.role}`.toLowerCase().includes(query)) && (filter === 'all' || (filter === 'done') === task.done));
   visible.forEach(task => {
     const li = document.createElement('li'); li.className = `task${task.done ? ' completed' : ''}`;
     const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = task.done;
@@ -118,13 +137,15 @@ function render() {
     checkbox.addEventListener('change', () => { task.done = checkbox.checked; save(); render(); });
     const body = document.createElement('div'); body.className = 'task-body';
     const title = document.createElement('span'); title.className = 'task-title'; title.textContent = task.title;
-    const meta = document.createElement('span'); meta.className = 'metadata'; meta.textContent = task.category;
+    const meta = document.createElement('span'); meta.className = 'metadata'; meta.textContent = `${task.category} · ${task.role}`;
     body.append(title, meta);
+    const role = makeRoleSelect(task.role, `Assistant role for ${task.title}`);
+    role.addEventListener('change', () => { task.role = role.value; save(); render(); });
     const priority = document.createElement('select'); priority.className = 'priority'; priority.setAttribute('aria-label', `Priority for ${task.title}`);
     ['low', 'normal', 'high'].forEach(value => { const option = document.createElement('option'); option.value = value; option.textContent = `${value[0].toUpperCase()}${value.slice(1)}`; option.selected = task.priority === value; priority.append(option); });
     priority.addEventListener('change', () => { task.priority = priority.value; save(); });
     const remove = makeButton('×', 'remove', () => { tasks = tasks.filter(t => t.id !== task.id); save(); render(); }, `Remove ${task.title}`);
-    li.append(checkbox, body, priority, remove); taskList.append(li);
+    li.append(checkbox, body, role, priority, remove); taskList.append(li);
   });
   emptyState.hidden = visible.length > 0;
   emptyState.textContent = tasks.length ? 'No tasks match this search or filter.' : 'Your tasks will appear here. Analyze text above or add a task manually.';
