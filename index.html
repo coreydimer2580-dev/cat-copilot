@@ -8,13 +8,14 @@
   <title>C@T Copilot — Conversation to tasks</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="agent.css">
+  <link rel="stylesheet" href="import-agents.css">
 </head>
 <body>
   <header class="topbar"><a class="brand" href="#" aria-label="C@T Copilot home"><span class="brand-icon">C@T</span><span>Copilot</span></a><span class="privacy"><span class="dot"></span> Private by default · stored in this browser</span></header>
   <main class="layout">
     <section class="intro">
       <p class="eyebrow">YOUR IDEAS, ORGANIZED</p><h1>Turn conversations<br><span>into a clear next step.</span></h1>
-      <p class="lede">Import text you’re authorized to use. C@T Copilot makes one reviewable draft from each sentence and keeps its source with the task.</p>
+      <p class="lede">Import text you’re authorized to use. Local import helpers make one reviewable draft from each sentence and retain its source label.</p>
       <div class="notice"><strong>About your conversation history</strong><p>This app cannot fetch private account history or search the internet. Export or copy conversations you control, then import those files yourself. Nothing is uploaded.</p></div>
       <div class="stats" aria-label="Task progress"><div><strong id="total-stat">0</strong><span>Total tasks</span></div><div><strong id="open-stat">0</strong><span>Open</span></div><div><strong id="done-stat">0</strong><span>Completed</span></div></div>
     </section>
@@ -26,20 +27,20 @@
         <form id="chat-form" class="chat-form"><label class="sr-only" for="chat-input">Message the local companion</label><input id="chat-input" maxlength="1000" autocomplete="off" placeholder="Say hello or ask about your tasks…"><button id="voice-input" class="quiet voice-button" type="button" aria-label="Use voice input">🎙</button><button class="primary chat-send" type="submit">Send</button></form>
         <div class="chat-options"><label><input id="speak-replies" type="checkbox"> Speak replies aloud (optional)</label><span id="voice-status" role="status">Voice features depend on browser support.</span></div>
       </section>
-      <div class="panel import-panel">
-        <div class="panel-heading"><div><p class="eyebrow">STEP 1</p><h2>Bring in conversation text</h2></div><label class="upload-button" for="file-input">Choose a text file</label><input id="file-input" type="file" accept=".txt,.md,.json,text/plain,application/json,text/markdown" hidden></div>
+      <section class="panel import-panel">
+        <div class="panel-heading"><div><p class="eyebrow">IMPORT YOUR EXPORTS</p><h2>Conversation text</h2></div><label class="upload-button" for="file-input">Choose a text file</label><input id="file-input" type="file" accept=".txt,.md,.json,text/plain,application/json,text/markdown" hidden></div>
         <label class="sr-only" for="source-label">Source label</label><input id="source-label" class="source-label" maxlength="120" placeholder="Optional source label, e.g. Chat export · May 2026">
         <label class="sr-only" for="conversation">Conversation text</label><textarea id="conversation" placeholder="Paste conversation text here…"></textarea>
         <div class="actions"><span class="hint">Every non-empty sentence becomes a draft. Review each one before adding it.</span><button id="analyze" class="primary">Draft from every sentence →</button></div>
-      </div>
+      </section>
       <section id="suggestions-panel" class="panel suggestions-panel" hidden><div class="panel-heading"><div><p class="eyebrow">REVIEW FIRST</p><h2>Sentence drafts <span id="suggestion-count" class="count">0</span></h2></div><button id="dismiss-all" class="quiet">Dismiss all</button></div><p class="hint suggestion-hint">These are sentence records for review, not assertions that every sentence is a task or fact.</p><ul id="suggestions" class="suggestions"></ul></section>
-      <div class="panel board-panel"><div class="panel-heading"><div><p class="eyebrow">STEP 2</p><h2>Project board</h2></div><div class="board-controls"><select id="role-filter" aria-label="Filter tasks by assistant role"><option value="all">All roles</option></select><select id="category-filter" aria-label="Filter tasks by category"><option value="all">All categories</option></select></div></div><div id="board" class="board" aria-live="polite"></div></div>
-      <div class="panel task-panel"><div class="panel-heading task-heading"><div><p class="eyebrow">STEP 3</p><h2>Your task list <span id="task-count" class="count">0</span></h2></div><div class="task-actions"><button id="export" class="quiet">Export</button><button id="clear" class="quiet danger">Clear all</button></div></div><div class="filters"><label class="sr-only" for="task-search">Search tasks</label><input id="task-search" type="search" placeholder="Search tasks…"><label class="sr-only" for="task-filter">Filter tasks</label><select id="task-filter"><option value="all">All tasks</option><option value="open">Open</option><option value="done">Completed</option></select></div><p id="empty-state" class="empty">Your tasks will appear here. Analyze text above or add a task manually.</p><ul id="tasks" class="tasks" aria-live="polite"></ul><form id="add-form" class="add-form"><label class="sr-only" for="new-task">New task</label><input id="new-task" maxlength="180" placeholder="Add a task yourself…"><button type="submit" aria-label="Add task">＋</button></form></div>
-      <div class="panel timeline-panel"><div class="panel-heading"><div><p class="eyebrow">STEP 4</p><h2>Memory timeline</h2></div></div><ul id="timeline" class="timeline"></ul></div>
-      <div class="panel dependency-panel"><div class="panel-heading"><div><p class="eyebrow">STEP 5</p><h2>Dependencies & blockers</h2></div></div><div id="dependency-summary" class="dependency-summary"></div></div>
-      <p class="footnote">Sentence splitting can miss context. Review each draft and check important facts. No external AI provider is connected.</p>
+      <div class="panel board-panel"><div class="panel-heading"><div><p class="eyebrow">PROJECT BOARD</p><h2>Task flow</h2></div><div class="board-controls"><select id="role-filter" aria-label="Filter tasks by assistant role"><option value="all">All roles</option></select><select id="category-filter" aria-label="Filter tasks by category"><option value="all">All categories</option></select></div></div><div id="board" class="board" aria-live="polite"></div></div>
+      <div class="panel task-panel"><div class="panel-heading task-heading"><div><p class="eyebrow">TASKS</p><h2>Your task list <span id="task-count" class="count">0</span></h2></div><div class="task-actions"><button id="export" class="quiet">Export</button><button id="clear" class="quiet danger">Clear all</button></div></div><div class="filters"><label class="sr-only" for="task-search">Search tasks</label><input id="task-search" type="search" placeholder="Search tasks…"><label class="sr-only" for="task-filter">Filter tasks</label><select id="task-filter"><option value="all">All tasks</option><option value="open">Open</option><option value="done">Completed</option></select></div><p id="empty-state" class="empty">Your tasks will appear here. Analyze text above or add a task manually.</p><ul id="tasks" class="tasks" aria-live="polite"></ul><form id="add-form" class="add-form"><label class="sr-only" for="new-task">New task</label><input id="new-task" maxlength="180" placeholder="Add a task yourself…"><button type="submit" aria-label="Add task">＋</button></form></div>
+      <div class="panel timeline-panel"><div class="panel-heading"><div><p class="eyebrow">MEMORY</p><h2>Timeline</h2></div></div><ul id="timeline" class="timeline"></ul></div>
+      <div class="panel dependency-panel"><div class="panel-heading"><div><p class="eyebrow">DEPENDENCIES</p><h2>Blockers</h2></div></div><div id="dependency-summary" class="dependency-summary"></div></div>
+      <p class="footnote">Sentence splitting and JSON extraction are best-effort. Review each draft and check important facts. No external AI provider is connected.</p>
     </section>
   </main>
-  <script src="app.js" defer></script><script src="agent.js" defer></script>
+  <script src="app.js" defer></script><script src="agent.js" defer></script><script src="import-agents.js" defer></script>
 </body>
 </html>

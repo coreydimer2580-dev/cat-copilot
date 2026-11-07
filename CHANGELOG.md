@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Added sentence-by-sentence capture: every non-empty sentence in selected/pasted text becomes an individual review draft, not just sentences matching action keywords.
-- Preserved the exact sentence and source label in accepted task memory.
-- Added duplicate-title filtering and explicit review-before-saving behavior.
-- Documented that only user-provided exports are processed; no account-history scraping or external AI service is connected.
+- Added local intake, sentence extraction, and review-queue agents for user-selected conversation exports.
+- Added best-effort JSON message extraction, source filename/speaker/timestamp provenance, duplicate import protection, and queue export/clear controls.
+- Require per-sentence human review before adding imported content to the task board.
+- Explicitly documented that workers cannot search accounts, phone storage, OneDrive, or Termux, and do not upload files or run after page close.

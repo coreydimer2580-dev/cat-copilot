@@ -1,0 +1,19 @@
+/* Local conversation-export intake, sentence capture, and human-review queue. */
+.import-agents { display: grid; gap: 11px; }
+.import-agents .panel-heading { margin-bottom: 0; }
+.agent-badge { border: 1px solid #554f79; border-radius: 999px; padding: 4px 9px; color: var(--accent); font-size: 10px; white-space: nowrap; }
+.import-agent-note { margin: 0; color: #b8bdca; font-size: 11px; line-height: 1.65; }
+.agent-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.agent-controls .primary:disabled { opacity: .45; cursor: not-allowed; }
+.import-agent-status { min-height: 1em; margin: 0; color: var(--mint); font-size: 10px; }
+.agent-progress { height: 4px; background: #ffffff10; border-radius: 99px; overflow: hidden; }
+.agent-progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), var(--mint)); transition: width .2s ease; }
+.queue-heading { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+.import-drafts { display: grid; gap: 7px; max-height: 430px; overflow: auto; margin: 0; padding: 0; list-style: none; }
+.import-draft { display: flex; align-items: flex-start; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 9px; background: #10131b; }
+.import-draft-body { flex: 1; min-width: 0; }
+.import-draft-body p { margin: 0 0 4px; color: var(--text); font-size: 11px; line-height: 1.55; overflow-wrap: anywhere; white-space: pre-wrap; }
+.import-draft-body small { color: var(--muted); font-size: 9px; overflow-wrap: anywhere; }
+.import-draft-actions { display: flex; gap: 5px; }
+.import-empty { color: var(--muted); text-align: center; padding: 14px; font-size: 10px; }
+@media (max-width: 500px) { .import-draft { flex-direction: column; }.import-draft-actions { width: 100%; }.import-draft-actions button { flex: 1; }.agent-controls > * { flex: 1; } }
