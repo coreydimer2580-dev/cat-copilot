@@ -1,10 +1,10 @@
 # C@T Copilot
 
-A small, privacy-first app that turns conversation text into a reviewable task list and memory-based project board.
+A privacy-first conversation-to-task planner with reviewable sentence capture, local task memory, a project board, and a local companion.
 
 ## Run locally
 
-Requires Node.js 18 or newer. From the project directory:
+Requires Node.js 18 or newer:
 
 ```sh
 npm start
@@ -12,22 +12,21 @@ npm start
 
 Open <http://localhost:3000>.
 
-## Features
+## Turn every sentence in an export into a draft
 
-- Paste conversation text or choose a local `.txt`, `.md`, or `.json` file (up to 5 MB).
-- Locally identify task-like sentences and present them as drafts for your approval; suggestions are not saved until you choose **Add task**.
-- Automatically suggest a task category, priority, and assistant role: human review, local/private work, coding, research, writing, or general assistance.
-- Track each task with a stage: backlog, in progress, waiting, or done.
-- Assign blocker states such as waiting for approval, evidence, input, or blocked.
-- Use a project board and keep a memory timeline of recent tasks and source activity.
-- Chat with a basic local companion that can summarize and search the browser's saved task list. Optional browser speech input and spoken replies are user-initiated.
-- Change task role and priority, group by category and role, search, filter by completion, and export tasks as JSON.
-- Store task and chat data in this browser's local storage.
+1. Export/copy conversation text from an account you control and are authorized to use.
+2. Paste it into the conversation box or select a `.txt`, `.md`, or `.json` file (maximum 5 MB).
+3. Optionally enter a source name, then choose **Draft from every sentence**.
+4. Review the sentence drafts and choose **Add task** or **Dismiss** individually.
 
-## Privacy and capability limits
+The importer creates a review draft for every non-empty sentence; it does not decide whether each sentence is a command or fact. Sentence splitting is heuristic, so inspect the original source and correct missed or incorrectly split sentences. Each accepted task keeps its sentence, source label, timestamp, category, role, and priority locally. Existing duplicate task titles are skipped. Only imported text is processed: the app cannot search your account history, Grok history, phone, Termux, OneDrive, or the internet.
 
-The chat companion uses simple local rules. It is not a generative AI model and will not produce unrestricted, human-level replies. It does not contact ChatGPT, Google AI, Grok, or any other provider. Chat and task data remain in this browser. Browser speech recognition may use browser/platform services depending on your browser; microphone access is requested only when you press the microphone button. Spoken replies are off unless you enable the checkbox.
+## Other features
 
-This app does **not** access your account history, private messages, or the internet. It cannot run after this browser/session closes. Import only exports and records you are authorized to use. Assistant role labels are planning helpers, not model integrations. Future provider integrations should use official APIs, server-side secrets, transparent cost/usage controls, and user approval before sharing sensitive data or taking external actions.
+- Organize tasks by category, suggested helper role, priority, and board stage.
+- Track blockers, search/filter tasks, maintain a local timeline, and export JSON.
+- Use the basic local chat companion to summarize and search saved tasks.
 
-Task detection is a basic heuristic, not an AI model; it can miss sentences or misinterpret context. Review suggestions and check facts, especially for legal, insurance, medical, or financial matters. Do not import other people's private data without permission.
+## Privacy and limitations
+
+Tasks and chat are stored in this browser's local storage. Do not import secrets or another person's private data without permission. No AI provider is connected and imported content is not uploaded. The task helper and chat are local heuristics, not generative AI. They do not execute actions or continue after the browser is closed. Review all extracted sentence tasks and check sensitive legal, insurance, medical, or financial facts independently.
