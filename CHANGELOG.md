@@ -4,10 +4,8 @@ Notable changes to C@T Copilot are recorded here.
 
 ## Unreleased
 
-- Added blocker states for waiting for approval, evidence, input, or blocked.
-- Added dependency summary cards to highlight blockers and direct dependencies.
-- Added a project board with backlog, in-progress, waiting, and done columns.
-- Added task stage tracking and a memory timeline based on recent source activity.
-- Added role and category filters for board views.
-- Added persistent task memory metadata for source text, sentence text, stage, blocker, and creation time.
-- Kept all external AI provider integrations disabled until explicit user approval and credentials are configured.
+- Added a local companion chat panel that answers basic questions about locally saved tasks.
+- Added persistent chat history stored in browser local storage with a clear-history control.
+- Added optional user-triggered browser voice input and opt-in spoken replies.
+- Clarified that the companion is a simple rules-based demo, not a connected generative model.
+- No messages are sent to external AI providers; microphone use is only attempted after a user presses the voice button.

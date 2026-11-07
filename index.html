@@ -7,6 +7,7 @@
   <meta name="description" content="C@T Copilot keeps task memory, project stages, dependencies, and a review-first workflow in one local planner.">
   <title>C@T Copilot — Memory-first task planner</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="agent.css">
 </head>
 <body>
   <header class="topbar">
@@ -28,6 +29,22 @@
     </section>
 
     <section class="workspace" aria-label="C@T Copilot workspace">
+      <section class="panel agent-panel" aria-labelledby="agent-title">
+        <div class="panel-heading">
+          <div><p class="eyebrow">LOCAL COMPANION</p><h2 id="agent-title">Talk with C@T Copilot</h2></div>
+          <button id="clear-chat" class="quiet" type="button">Clear chat</button>
+        </div>
+        <p class="hint agent-disclaimer">This is a simple local demo agent—not a connected AI model. It can answer basic questions about your local task board. Messages stay in this browser.</p>
+        <div id="chat-messages" class="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <form id="chat-form" class="chat-form">
+          <label class="sr-only" for="chat-input">Message the local companion</label>
+          <input id="chat-input" maxlength="1000" autocomplete="off" placeholder="Say hello or ask about your tasks…">
+          <button id="voice-input" class="quiet voice-button" type="button" aria-label="Use voice input">🎙</button>
+          <button class="primary chat-send" type="submit">Send</button>
+        </form>
+        <div class="chat-options"><label><input id="speak-replies" type="checkbox"> Speak replies aloud (optional)</label><span id="voice-status" role="status">Voice features depend on browser support.</span></div>
+      </section>
+
       <div class="panel import-panel">
         <div class="panel-heading">
           <div><p class="eyebrow">STEP 1</p><h2>Bring in conversation text</h2></div>
@@ -87,16 +104,12 @@
       </div>
 
       <div class="panel timeline-panel">
-        <div class="panel-heading">
-          <div><p class="eyebrow">STEP 4</p><h2>Memory timeline</h2></div>
-        </div>
+        <div class="panel-heading"><div><p class="eyebrow">STEP 4</p><h2>Memory timeline</h2></div></div>
         <ul id="timeline" class="timeline"></ul>
       </div>
 
       <div class="panel dependency-panel">
-        <div class="panel-heading">
-          <div><p class="eyebrow">STEP 5</p><h2>Dependencies & blockers</h2></div>
-        </div>
+        <div class="panel-heading"><div><p class="eyebrow">STEP 5</p><h2>Dependencies & blockers</h2></div></div>
         <div id="dependency-summary" class="dependency-summary"></div>
       </div>
 
@@ -105,5 +118,6 @@
   </main>
 
   <script src="app.js" defer></script>
+  <script src="agent.js" defer></script>
 </body>
 </html>
