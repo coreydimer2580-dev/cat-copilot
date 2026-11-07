@@ -12,23 +12,20 @@ npm start
 
 Open <http://localhost:3000>.
 
+## Capability pathways
+
+The **Capability Routes** panel maps goals to practical setup steps and tracks checklist progress in this browser. It distinguishes what can be done now from capabilities requiring an authorized connector or a separate worker. Each route can add its next step to the local task list.
+
+Routes cover user-selected chat exports, OneDrive, Termux, media transcription, a real AI model, an external persistent worker, and grounded personal goal planning. These are pathways and requirements, not claims that integrations are connected. Account access needs official authorization, least-privilege scopes, and user-controlled consent. External workers must run in an environment you control with logs and stop controls. Sensitive or irreversible actions require human approval.
+
 ## Local conversation import agents
 
-The planner includes a small, browser-only pipeline for exports you select:
+1. The intake helper reads text/JSON exports you select.
+2. The sentence helper creates one draft per non-empty sentence.
+3. The review queue keeps source information; choose **Add task** or **Dismiss** per sentence.
 
-1. **Intake worker** reads selected `.txt`, `.md`, or `.json` files (up to 10 files, 5 MB each).
-2. **Sentence worker** extracts messages from common JSON structures when possible and creates a draft for each non-empty sentence.
-3. **Review queue** preserves the sentence, filename, speaker label, and available timestamp. Choose **Add task** or **Dismiss** per sentence; adding a task does not claim that its content is true.
-4. Export or clear the draft queue at any time.
-
-The JSON parser is best-effort; export schemas differ. Compare results with the original export. Sentence boundaries are heuristic and may split or combine text unexpectedly. The importer accepts files you choose; it does not automatically connect to or search ChatGPT, Grok, OneDrive, phone storage, Termux, or any other account. It does not upload data. Import only accounts and files you control or have permission to use.
-
-## Other features
-
-- Organize tasks by suggested category, role, priority, and board stage.
-- Track blockers, search/filter tasks, maintain a local timeline, and export tasks as JSON.
-- Use the basic local chat companion to summarize and search saved tasks.
+JSON extraction and sentence boundaries are best-effort. Compare results with the original. The importer does not search ChatGPT, Grok, OneDrive, Termux, phone storage, or other accounts, and does not upload content.
 
 ## Privacy and limitations
 
-Tasks, chat, and import drafts are stored in this browser's local storage. Do not import secrets or another person's private data without permission. No AI provider is connected. The local agents use deterministic parsing and heuristics; they do not have model intelligence, execute code, or continue after the page is closed. Review imported content yourself, particularly for legal, medical, financial, or safety matters.
+Tasks, chat, pathway progress, and import drafts are stored in this browser's local storage. Do not import secrets or another person's private data without permission. The local companion is not generative AI. No provider, OneDrive, or persistent worker is connected by default. Import only files you control or are authorized to use. Review outputs and check sensitive facts independently.
