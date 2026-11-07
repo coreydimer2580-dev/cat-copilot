@@ -1,6 +1,6 @@
 # C@T Copilot
 
-A small, privacy-first app that turns conversation text into a reviewable task list.
+A small, privacy-first app that turns conversation text into a reviewable task list and memory-based project board.
 
 ## Run locally
 
@@ -17,8 +17,8 @@ Open <http://localhost:3000>.
 - Paste conversation text or choose a local `.txt`, `.md`, or `.json` file (up to 5 MB).
 - Locally identify task-like sentences and present them as drafts for your approval; suggestions are not saved until you choose **Add task**.
 - Automatically suggest a task category, priority, and assistant role: human review, local/private work, coding, research, writing, or general assistance.
-- Track task stage on a project board: backlog, in progress, waiting, or done.
-- Keep a memory timeline of the most recent tasks and the source they came from.
+- Track each task with a stage: backlog, in progress, waiting, or done.
+- Use a project board and keep a memory timeline of recent tasks and source activity.
 - Change task role and priority, group by category and role, search, filter by completion, and export tasks as JSON.
 - Store task data in this browser's local storage.
 
