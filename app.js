@@ -1,106 +1,257 @@
-* { box-sizing: border-box; }
-:root { color-scheme: dark; --bg: #10131c; --panel: #191d29; --border: #2b3141; --text: #f3f5fa; --muted: #a3aabc; --accent: #b7a5ff; --mint: #86e3c2; --warn: #efc27a; --danger: #f3a0a7; --ok: #7fe7ab; --shadow: rgba(0,0,0,0.35); }
-body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 12% 0%, #27203e 0, transparent 38%), var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-.topbar { height: 72px; border-bottom: 1px solid #ffffff12; display: flex; align-items: center; justify-content: space-between; padding: 0 max(5vw, 24px); }
-.brand { display: flex; align-items: center; gap: 11px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 17px; letter-spacing: -.3px; }
-.brand-icon { display: grid; place-items: center; width: 40px; height: 34px; border-radius: 11px; color: #141322; background: linear-gradient(135deg, var(--accent), var(--mint)); font-size: 12px; font-weight: 800; }
-.privacy, .hint { color: var(--muted); font-size: 12px; }
-.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--mint); margin-right: 7px; }
-.layout { width: min(1200px, 92vw); margin: 70px auto 60px; display: grid; grid-template-columns: .85fr 1.15fr; align-items: start; gap: clamp(32px, 6vw, 80px); }
-.eyebrow { color: var(--mint); font-weight: 750; letter-spacing: 1.4px; font-size: 10px; margin: 0 0 10px; }
-h1 { font-size: clamp(38px, 5vw, 58px); line-height: 1.07; letter-spacing: -2.6px; margin: 0 0 20px; }
-h1 span { color: var(--accent); }
-.lede { max-width: 430px; color: #b8bdca; font-size: 15px; line-height: 1.75; }
-.notice { border: 1px solid #ffffff16; background: #ffffff08; border-radius: 13px; padding: 15px 17px; margin-top: 30px; max-width: 435px; }
-.notice strong { font-size: 12px; }
-.notice p { color: var(--muted); font-size: 12px; line-height: 1.65; margin: 6px 0 0; }
-.stats { display: flex; gap: 10px; margin-top: 22px; max-width: 435px; }
-.stats div { display: grid; gap: 2px; flex: 1; padding: 12px; background: #ffffff08; border: 1px solid #ffffff12; border-radius: 11px; }
-.stats strong { font-size: 19px; }
-.stats span { color: var(--muted); font-size: 10px; }
-.workspace { display: grid; gap: 16px; }
-.panel { background: color-mix(in srgb, var(--panel), transparent 3%); border: 1px solid var(--border); border-radius: 16px; padding: 21px; box-shadow: 0 18px 50px #0002; }
-.panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
-.panel-heading .eyebrow { margin-bottom: 4px; }
-h2 { font-size: 17px; margin: 0; letter-spacing: -.3px; }
-.upload-button, .quiet { cursor: pointer; border: 1px solid var(--border); border-radius: 8px; padding: 8px 11px; color: #d7d9e3; background: #ffffff06; font-size: 11px; white-space: nowrap; }
-.upload-button:hover, .quiet:hover { border-color: var(--accent); }
-textarea, input, select, button { font: inherit; }
-textarea { width: 100%; min-height: 180px; resize: vertical; border: 1px solid var(--border); background: #10131b; border-radius: 10px; padding: 13px; color: var(--text); font-size: 13px; }
-textarea:focus, input:focus, select:focus { border-color: var(--accent); outline: none; }
-.actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 13px; }
-.hint { font-size: 10px; }
-.primary, .small-primary { background: var(--accent); color: #171326; border: 0; border-radius: 8px; padding: 10px 13px; cursor: pointer; font-weight: 750; font-size: 12px; white-space: nowrap; }
-.primary:hover, .small-primary:hover { filter: brightness(1.09); }
-.task-heading { margin-bottom: 9px; }
-.count { color: var(--muted); font-size: 11px; font-weight: 500; background: #ffffff0c; padding: 3px 7px; border-radius: 20px; vertical-align: 2px; margin-left: 4px; }
-.task-actions { display: flex; gap: 7px; }
-.quiet { padding: 6px 9px; }
-.danger { color: #e8a4ab; }
-.board-controls { display: flex; gap: 8px; }
-.filters { display: flex; gap: 8px; margin: 13px 0; }
-.filters input, .filters select, .priority, .role-select, .stage-select, .blocker-select, .board-controls select, .task-actions input, .task-actions select { color: var(--text); background: #10131b; border: 1px solid var(--border); border-radius: 8px; padding: 7px 8px; }
-.filters input { flex: 1; min-width: 0; }
-.filters select { color: #d7d9e3; }
-.empty { color: var(--muted); font-size: 12px; text-align: center; padding: 20px 8px; }
-.tasks, .suggestions { list-style: none; margin: 0; padding: 0; max-height: 360px; overflow: auto; }
-.task, .suggestion { display: flex; align-items: center; gap: 10px; border-top: 1px solid #ffffff0b; padding: 11px 2px; }
-.task input { accent-color: var(--mint); }
-.task-body, .suggestion-body { flex: 1; min-width: 0; display: grid; gap: 2px; }
-.task-title, .suggestion-title { font-size: 12px; overflow-wrap: anywhere; margin: 0; }
-.metadata { color: var(--muted); font-size: 10px; text-transform: capitalize; }
-.source { display: block; color: #8a92a6; font-size: 9px; margin-top: 3px; }
-.completed .task-title { color: #777e8f; text-decoration: line-through; }
-.priority { padding: 5px 6px; }
-.role-select, .stage-select, .blocker-select { padding: 6px 7px; max-width: 170px; }
-.remove { border: 0; background: none; color: #8d94a4; font-size: 20px; cursor: pointer; }
-.remove:hover { color: #f195a0; }
-.suggestion-hint { margin: 0 0 8px; }
-.suggestion-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.small-primary, .small-quiet { padding: 7px 9px; font-size: 10px; }
-.small-quiet { cursor: pointer; border: 1px solid var(--border); border-radius: 8px; color: #d7d9e3; background: #ffffff06; }
-.add-form { display: flex; gap: 8px; margin-top: 12px; }
-.add-form input { flex: 1; min-width: 0; color: var(--text); background: #10131b; border: 1px solid var(--border); border-radius: 8px; padding: 10px 11px; }
-.board { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 12px; }
-.board-column { border: 1px solid var(--border); background: rgba(255,255,255,0.02); border-radius: 12px; min-height: 180px; }
-.board-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 11px; }
-.board-header span { background: rgba(255,255,255,0.07); border-radius: 999px; padding: 3px 7px; color: var(--muted); }
-.board-body { display: grid; gap: 8px; padding: 10px; }
-.board-card { border: 1px solid var(--border); background: rgba(19,24,35,0.95); border-radius: 10px; padding: 10px; display: grid; gap: 8px; }
-.board-card-text { display: grid; gap: 2px; }
-.board-card-text strong { font-size: 11px; }
-.board-card-text small { color: var(--muted); font-size: 9px; }
-.board-card-controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.pill { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 999px; font-size: 9px; text-transform: capitalize; }
-.pill.low { background: rgba(120,170,255,0.15); color: #9ebeff; }
-.pill.normal { background: rgba(255,214,122,0.12); color: #f3d198; }
-.pill.high { background: rgba(245,94,94,0.12); color: #f5a2a2; }
-.board-empty { border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); font-size: 10px; text-align: center; padding: 12px; }
-.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.timeline-item { display: flex; gap: 10px; align-items: flex-start; }
-.timeline-dot { width: 9px; height: 9px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--mint)); margin-top: 6px; }
-.timeline-content { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; flex: 1; display: grid; gap: 4px; }
-.timeline-content strong { font-size: 12px; }
-.timeline-content small { color: var(--muted); font-size: 10px; }
-.timeline-empty { color: var(--muted); font-size: 12px; }
-.dependency-summary { display: grid; gap: 8px; }
-.dependency-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; }
-.dependency-card strong { font-size: 12px; }
-.dependency-detail, .dependency-card small { color: var(--muted); font-size: 10px; }
-.dependency-empty { color: var(--muted); font-size: 12px; }
-.footnote { text-align: center; color: #82899a; font-size: 10px; margin: 0; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-.terminal-shell { border: 1px solid var(--border); border-radius: 12px; background: rgba(2,6,15,0.9); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03); }
-.terminal-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); color: var(--muted); font-size: 11px; }
-.terminal-name { color: var(--mint); font-weight: 700; }
-.terminal-state { color: var(--ok); }
-.terminal-output { min-height: 150px; max-height: 220px; overflow: auto; padding: 12px; display: grid; gap: 7px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; line-height: 1.5; }
-.terminal-line { white-space: pre-wrap; word-break: break-word; color: #dfe6ff; }
-.terminal-line.muted { color: var(--muted); }
-.terminal-line.ok { color: var(--ok); }
-.terminal-line.warn { color: var(--warn); }
-.terminal-line.error { color: var(--danger); }
-.terminal-form { display: flex; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--border); }
-.terminal-form input { flex: 1; min-width: 0; color: var(--text); background: #0d1320; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
-@media (max-width: 760px) { .layout { grid-template-columns: 1fr; margin-top: 42px; gap: 30px; } h1 { font-size: 45px; }.topbar { padding: 0 5vw; }.privacy { font-size: 10px; }.board { grid-template-columns: repeat(2, minmax(130px, 1fr)); } }
-@media (max-width: 420px) { .panel { padding: 16px; }.actions { align-items: flex-start; flex-direction: column; }.primary { width: 100%; }.panel-heading { align-items: flex-start; }.task, .suggestion { flex-wrap: wrap; }.terminal-form { flex-direction: column; }.board { grid-template-columns: 1fr; } }
+const STORAGE_KEY = 'cat-copilot-tasks-v1';
+const stages = ['backlog', 'in-progress', 'waiting', 'done'];
+const stageLabels = { backlog: 'Backlog', 'in-progress': 'In progress', waiting: 'Waiting', done: 'Done' };
+const roles = ['Human review', 'Local/private work', 'Coding assistant', 'Research assistant', 'Writing assistant', 'General assistant'];
+const blockers = ['none', 'waiting-for-approval', 'waiting-for-evidence', 'waiting-for-input', 'blocked'];
+const blockerLabels = { none: 'None', 'waiting-for-approval': 'Waiting for approval', 'waiting-for-evidence': 'Waiting for evidence', 'waiting-for-input': 'Waiting for input', blocked: 'Blocked' };
+const textInput = document.querySelector('#conversation');
+const fileInput = document.querySelector('#file-input');
+const taskList = document.querySelector('#tasks');
+const emptyState = document.querySelector('#empty-state');
+const count = document.querySelector('#task-count');
+const suggestionsPanel = document.querySelector('#suggestions-panel');
+const suggestionsList = document.querySelector('#suggestions');
+const suggestionCount = document.querySelector('#suggestion-count');
+const board = document.querySelector('#board');
+const timeline = document.querySelector('#timeline');
+const dependencySummary = document.querySelector('#dependency-summary');
+const roleFilter = document.querySelector('#role-filter');
+const categoryFilter = document.querySelector('#category-filter');
+const terminalInput = document.querySelector('#terminal-input');
+const terminalForm = document.querySelector('#terminal-form');
+const terminalOutput = document.querySelector('#terminal-output');
+let tasks = loadTasks();
+let suggestions = [];
+
+function loadTasks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    return Array.isArray(saved) ? saved.filter(t => t && typeof t.title === 'string').map(t => ({
+      id: t.id || crypto.randomUUID(), title: t.title, done: Boolean(t.done),
+      category: t.category || categorize(t.title),
+      priority: ['low', 'normal', 'high'].includes(t.priority) ? t.priority : 'normal',
+      role: roles.includes(t.role) ? t.role : recommendRole(t.title),
+      stage: stages.includes(t.stage) ? t.stage : (t.done ? 'done' : 'backlog'),
+      blocker: blockers.includes(t.blocker) ? t.blocker : 'none',
+      source: typeof t.source === 'string' ? t.source : 'manual',
+      dependsOn: Array.isArray(t.dependsOn) ? t.dependsOn : [],
+      createdAt: t.createdAt || new Date().toISOString(),
+      memory: t.memory && typeof t.memory === 'object' ? t.memory : { sentence: t.title }
+    })) : [];
+  } catch { return []; }
+}
+function save() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); return true; }
+  catch { alert('Could not save tasks. Browser storage may be full; export your tasks before clearing anything.'); return false; }
+}
+function sentenceList(text) {
+  return text.replace(/\r/g, '').split(/(?<=[.!?])(?:[\s]+|(?=["”’)]))|\n+/).map(s => s.trim().replace(/^[-*•\d.)\s]+/, '').trim()).filter(Boolean);
+}
+function taskTitle(sentence) { return sentence.replace(/[\s.!?]+$/, '').trim() || sentence.trim(); }
+function categorize(title) {
+  if (/\b(import|export|data|history|recover|restore|evidence|claim|email|attachment|document|source|photo|video|transcript)\b/i.test(title)) return 'Data';
+  if (/\b(secur|privacy|approval|consent|guard|permission|sensitive|human review|safety)\b/i.test(title)) return 'Safety';
+  if (/\b(test|fix|bug|review|validate|quality)\b/i.test(title)) return 'Quality';
+  if (/\b(build|create|design|interface|chat|app|assistant|code|implement|automate|script)\b/i.test(title)) return 'Product';
+  if (/\b(goal|objective|plan|future|support|wellbeing|well-being)\b/i.test(title)) return 'Personal goals';
+  return 'General';
+}
+function recommendRole(title) {
+  if (/\b(send|submit|pay|delete|approve|legal|claim|insurance|medical|financial|external action|consent|sensitive)\b/i.test(title)) return 'Human review';
+  if (/\b(code|coding|build|debug|implement|software|app|test|deploy|automate|script)\b/i.test(title)) return 'Coding assistant';
+  if (/\b(research|find|search|compare|verify|source|investigate|evidence|history|facts|proof)\b/i.test(title)) return 'Research assistant';
+  if (/\b(write|draft|summarize|letter|document|report|explain|email)\b/i.test(title)) return 'Writing assistant';
+  if (/\b(private|local|sensitive|personal|data|history|recover|storage)\b/i.test(title)) return 'Local/private work';
+  return 'General assistant';
+}
+function suggestedPriority(title) { return /\b(critical|urgent|security|privacy|recover|restore|block|prevent)\b/i.test(title) ? 'high' : 'normal'; }
+function makeButton(label, className, action, ariaLabel = label) {
+  const button = document.createElement('button'); button.type = 'button'; button.className = className; button.textContent = label;
+  button.setAttribute('aria-label', ariaLabel); button.addEventListener('click', action); return button;
+}
+function makeSelect(className, values, selected, labels, ariaLabel) {
+  const select = document.createElement('select'); select.className = className; select.setAttribute('aria-label', ariaLabel);
+  values.forEach(value => { const option = document.createElement('option'); option.value = value; option.textContent = labels?.[value] || value; option.selected = value === selected; select.append(option); });
+  return select;
+}
+function refreshFilters() {
+  if (!roleFilter || !categoryFilter) return;
+  const previousRole = roleFilter.value, previousCategory = categoryFilter.value;
+  roleFilter.replaceChildren(new Option('All roles', 'all'));
+  [...new Set(tasks.map(t => t.role))].sort().forEach(role => roleFilter.add(new Option(role, role)));
+  categoryFilter.replaceChildren(new Option('All categories', 'all'));
+  [...new Set(tasks.map(t => t.category))].sort().forEach(category => categoryFilter.add(new Option(category, category)));
+  roleFilter.value = [...roleFilter.options].some(o => o.value === previousRole) ? previousRole : 'all';
+  categoryFilter.value = [...categoryFilter.options].some(o => o.value === previousCategory) ? previousCategory : 'all';
+}
+function appendTerminalLine(text, tone = '') {
+  if (!terminalOutput) return;
+  const line = document.createElement('div'); line.className = `terminal-line${tone ? ` ${tone}` : ''}`; line.textContent = text;
+  terminalOutput.append(line); terminalOutput.scrollTop = terminalOutput.scrollHeight;
+}
+function buildSentencePlan(sentence) {
+  const title = taskTitle(sentence), normalized = title.toLowerCase();
+  let intent = 'task';
+  if (/\b(build|create|implement|design|launch|set up|make)\b/.test(normalized)) intent = 'build';
+  else if (/\b(test|check|validate|review|verify)\b/.test(normalized)) intent = 'verify';
+  else if (/\b(find|research|compare|investigate|look up)\b/.test(normalized)) intent = 'research';
+  else if (/\b(write|summarize|draft|email|document)\b/.test(normalized)) intent = 'write';
+  const sequence = [];
+  if (/\b(build|create|design|implement|make|setup|launch|app)\b/.test(normalized)) sequence.push('scope');
+  if (/\b(research|find|compare|investigate|evidence|proof|facts)\b/.test(normalized)) sequence.push('research');
+  if (/\b(test|validate|review|check|verify|bug|fix)\b/.test(normalized)) sequence.push('verify');
+  if (/\b(write|summarize|draft|email|document|report)\b/.test(normalized)) sequence.push('write');
+  if (!sequence.length) sequence.push('capture');
+  return { title, role: recommendRole(title), category: categorize(title), priority: suggestedPriority(title), intent, sequence };
+}
+
+const analyzeButton = document.querySelector('#analyze');
+if (analyzeButton) analyzeButton.textContent = 'Draft from every sentence →';
+analyzeButton?.addEventListener('click', () => {
+  const sentences = sentenceList(textInput?.value || '');
+  if (!sentences.length) { alert('Paste or upload conversation text first.'); return; }
+  const existing = new Set([...tasks.map(t => t.title.toLocaleLowerCase()), ...suggestions.map(t => t.title.toLocaleLowerCase())]);
+  let duplicates = 0;
+  const sourceName = document.querySelector('#source-label')?.value.trim() || 'pasted conversation';
+  suggestions = [];
+  sentences.forEach(sentence => {
+    const title = taskTitle(sentence), key = title.toLocaleLowerCase();
+    if (existing.has(key)) { duplicates++; return; }
+    existing.add(key);
+    suggestions.push({ id: crypto.randomUUID(), title, category: categorize(title), priority: suggestedPriority(title), role: recommendRole(title), stage: 'backlog', blocker: 'none', source: sourceName, dependsOn: [], createdAt: new Date().toISOString(), memory: { sentence, sourceText: sentence, importedFrom: sourceName, reviewState: 'unreviewed' } });
+  });
+  renderSuggestions();
+  if (!suggestions.length) alert(`No new sentence drafts. ${duplicates} sentence${duplicates === 1 ? ' was' : 's were'} already represented in your tasks.`);
+});
+document.querySelector('#dismiss-all')?.addEventListener('click', () => { suggestions = []; renderSuggestions(); });
+fileInput?.addEventListener('change', async () => {
+  const file = fileInput.files?.[0]; if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { alert('Please choose a file smaller than 5 MB.'); fileInput.value = ''; return; }
+  try { textInput.value = await file.text(); const label = document.querySelector('#source-label'); if (label) label.value = file.name; }
+  catch { alert('Could not read that file. Please try a plain text or JSON export.'); }
+  fileInput.value = '';
+});
+roleFilter?.addEventListener('change', render);
+categoryFilter?.addEventListener('change', render);
+terminalForm?.addEventListener('submit', event => {
+  event.preventDefault();
+  const input = terminalInput?.value.trim();
+  if (!input) { appendTerminalLine('No sentence received. Try again with a single task sentence.', 'warn'); return; }
+  const plan = buildSentencePlan(input);
+  appendTerminalLine(`$ cat build "${plan.title}"`);
+  appendTerminalLine(`> intent: ${plan.intent}`, 'muted');
+  appendTerminalLine(`> role: ${plan.role}`, 'muted');
+  appendTerminalLine(`> category: ${plan.category}`, 'muted');
+  appendTerminalLine(`> priority: ${plan.priority}`, 'muted');
+  appendTerminalLine(`> sequence: ${plan.sequence.join(' → ')}`, 'muted');
+  if (tasks.some(task => task.title.toLowerCase() === plan.title.toLowerCase())) {
+    appendTerminalLine('> task already exists in backlog. No new task created.', 'warn'); terminalInput.value = ''; return;
+  }
+  tasks.unshift({ id: crypto.randomUUID(), title: plan.title, done: false, category: plan.category, priority: plan.priority, role: plan.role, stage: 'backlog', blocker: 'none', source: 'auto-terminal', dependsOn: [], createdAt: new Date().toISOString(), memory: { sentence: input, intent: plan.intent, sequence: plan.sequence, autoBuilt: true } });
+  if (save()) { refreshFilters(); render(); appendTerminalLine(`> built task: "${plan.title}"`, 'ok'); }
+  terminalInput.value = '';
+});
+document.querySelector('#add-form')?.addEventListener('submit', event => {
+  event.preventDefault(); const input = document.querySelector('#new-task'); const title = input.value.trim(); if (!title) return;
+  tasks.unshift({ id: crypto.randomUUID(), title, done: false, category: categorize(title), priority: 'normal', role: recommendRole(title), stage: 'backlog', blocker: 'none', source: 'manual', dependsOn: [], createdAt: new Date().toISOString(), memory: { sentence: title } });
+  input.value = ''; save(); refreshFilters(); render();
+});
+document.querySelector('#task-search')?.addEventListener('input', render);
+document.querySelector('#task-filter')?.addEventListener('change', render);
+document.querySelector('#clear')?.addEventListener('click', () => { if (!tasks.length || confirm('Clear all saved tasks from this browser?')) { tasks = []; save(); refreshFilters(); render(); } });
+document.querySelector('#export')?.addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ app: 'C@T Copilot', exportedAt: new Date().toISOString(), tasks }, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob); const link = Object.assign(document.createElement('a'), { href: url, download: 'cat-copilot-tasks.json' }); link.click(); URL.revokeObjectURL(url);
+});
+function renderSuggestions() {
+  if (!suggestionsList || !suggestionsPanel) return;
+  suggestionsList.replaceChildren();
+  suggestions.forEach(item => {
+    const li = document.createElement('li'); li.className = 'suggestion';
+    const body = document.createElement('div'); body.className = 'suggestion-body';
+    const title = document.createElement('p'); title.className = 'suggestion-title'; title.textContent = item.title;
+    const meta = document.createElement('span'); meta.className = 'metadata'; meta.textContent = `${item.category} · ${item.priority} priority · ${item.source}`;
+    const role = makeSelect('role-select', roles, item.role, null, `Suggested assistant role for ${item.title}`); role.addEventListener('change', () => { item.role = role.value; });
+    body.append(title, meta);
+    const actions = document.createElement('div'); actions.className = 'suggestion-actions'; actions.append(role);
+    actions.append(makeButton('Add task', 'small-primary', () => { item.memory.reviewState = 'accepted'; tasks.unshift({ ...item, done: false }); suggestions = suggestions.filter(s => s.id !== item.id); save(); refreshFilters(); render(); renderSuggestions(); }));
+    actions.append(makeButton('Dismiss', 'small-quiet', () => { suggestions = suggestions.filter(s => s.id !== item.id); renderSuggestions(); }));
+    li.append(body, actions); suggestionsList.append(li);
+  });
+  if (suggestionCount) suggestionCount.textContent = String(suggestions.length);
+  suggestionsPanel.hidden = suggestions.length === 0;
+}
+function renderBoard() {
+  if (!board) return; board.replaceChildren();
+  const role = roleFilter?.value || 'all', category = categoryFilter?.value || 'all';
+  const filtered = tasks.filter(task => (role === 'all' || task.role === role) && (category === 'all' || task.category === category));
+  stages.forEach(stage => {
+    const column = document.createElement('div'); column.className = 'board-column';
+    const header = document.createElement('div'); header.className = 'board-header';
+    const title = document.createElement('strong'); title.textContent = stageLabels[stage];
+    const badge = document.createElement('span'); badge.textContent = String(filtered.filter(t => t.stage === stage).length); header.append(title, badge);
+    const body = document.createElement('div'); body.className = 'board-body';
+    const rows = filtered.filter(t => t.stage === stage);
+    if (!rows.length) { const empty = document.createElement('div'); empty.className = 'board-empty'; empty.textContent = 'No tasks'; body.append(empty); }
+    rows.forEach(task => {
+      const card = document.createElement('div'); card.className = 'board-card';
+      const text = document.createElement('div'); text.className = 'board-card-text';
+      const name = document.createElement('strong'); name.textContent = task.title;
+      const meta = document.createElement('small'); meta.textContent = `${task.category} · ${task.role}`; text.append(name, meta);
+      const controls = document.createElement('div'); controls.className = 'board-card-controls';
+      const priority = document.createElement('span'); priority.className = `pill ${task.priority}`; priority.textContent = task.priority;
+      const stageSelect = makeSelect('stage-select', stages, task.stage, stageLabels, `Stage for ${task.title}`);
+      stageSelect.addEventListener('change', () => { task.stage = stageSelect.value; task.done = task.stage === 'done'; save(); render(); });
+      controls.append(priority, stageSelect); card.append(text, controls); body.append(card);
+    });
+    column.append(header, body); board.append(column);
+  });
+}
+function renderTimeline() {
+  if (!timeline) return; timeline.replaceChildren();
+  const entries = [...tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 8);
+  if (!entries.length) { const empty = document.createElement('li'); empty.className = 'timeline-empty'; empty.textContent = 'No memory yet. Add reviewed tasks to build a history.'; timeline.append(empty); return; }
+  entries.forEach(task => {
+    const li = document.createElement('li'); li.className = 'timeline-item'; const dot = document.createElement('span'); dot.className = 'timeline-dot';
+    const content = document.createElement('div'); content.className = 'timeline-content'; const title = document.createElement('strong'); title.textContent = task.title;
+    const meta = document.createElement('small'); meta.textContent = `${new Date(task.createdAt).toLocaleString()} · ${task.source} · ${task.category} · ${task.role}`;
+    content.append(title, meta); li.append(dot, content); timeline.append(li);
+  });
+}
+function renderDependencies() {
+  if (!dependencySummary) return; dependencySummary.replaceChildren();
+  const active = tasks.filter(t => t.blocker !== 'none' || t.dependsOn.length);
+  if (!active.length) { const empty = document.createElement('div'); empty.className = 'dependency-empty'; empty.textContent = 'No blockers or dependencies yet.'; dependencySummary.append(empty); return; }
+  active.slice(0, 10).forEach(task => {
+    const card = document.createElement('div'); card.className = 'dependency-card'; const title = document.createElement('strong'); title.textContent = task.title;
+    const detail = document.createElement('div'); detail.className = 'dependency-detail'; detail.textContent = `Stage: ${stageLabels[task.stage]} · Blocker: ${blockerLabels[task.blocker]}`;
+    const deps = document.createElement('small'); deps.textContent = task.dependsOn.length ? `Depends on: ${task.dependsOn.join(', ')}` : 'No direct dependency';
+    card.append(title, detail, deps); dependencySummary.append(card);
+  });
+}
+function render() {
+  if (!taskList) return; taskList.replaceChildren();
+  const query = document.querySelector('#task-search')?.value.trim().toLowerCase() || '';
+  const filter = document.querySelector('#task-filter')?.value || 'all';
+  const visible = tasks.filter(task => (!query || `${task.title} ${task.category} ${task.role} ${task.source}`.toLowerCase().includes(query)) && (filter === 'all' || (filter === 'done') === task.done));
+  visible.forEach(task => {
+    const li = document.createElement('li'); li.className = `task${task.done ? ' completed' : ''}`;
+    const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = task.done; checkbox.setAttribute('aria-label', `Mark ${task.title} ${task.done ? 'not done' : 'done'}`);
+    checkbox.addEventListener('change', () => { task.done = checkbox.checked; if (task.done) task.stage = 'done'; save(); render(); });
+    const body = document.createElement('div'); body.className = 'task-body'; const title = document.createElement('span'); title.className = 'task-title'; title.textContent = task.title;
+    const meta = document.createElement('span'); meta.className = 'metadata'; meta.textContent = `${task.category} · ${task.role} · ${stageLabels[task.stage]}`;
+    const source = document.createElement('small'); source.className = 'source'; source.textContent = `From: ${task.source}`; body.append(title, meta, source);
+    const role = makeSelect('role-select', roles, task.role, null, `Assistant role for ${task.title}`); role.addEventListener('change', () => { task.role = role.value; save(); refreshFilters(); render(); });
+    const stage = makeSelect('stage-select', stages, task.stage, stageLabels, `Stage for ${task.title}`); stage.addEventListener('change', () => { task.stage = stage.value; task.done = stage.value === 'done'; save(); render(); });
+    const blocker = makeSelect('blocker-select', blockers, task.blocker, blockerLabels, `Blocker state for ${task.title}`); blocker.addEventListener('change', () => { task.blocker = blocker.value; save(); render(); });
+    const priority = makeSelect('priority', ['low', 'normal', 'high'], task.priority, { low: 'Low', normal: 'Normal', high: 'High' }, `Priority for ${task.title}`); priority.addEventListener('change', () => { task.priority = priority.value; save(); render(); });
+    const remove = makeButton('×', 'remove', () => { tasks = tasks.filter(t => t.id !== task.id); save(); refreshFilters(); render(); }, `Remove ${task.title}`);
+    li.append(checkbox, body, role, stage, blocker, priority, remove); taskList.append(li);
+  });
+  if (emptyState) { emptyState.hidden = visible.length > 0; emptyState.textContent = tasks.length ? 'No tasks match this search or filter.' : 'Your tasks will appear here. Analyze text above or add a task manually.'; }
+  if (count) count.textContent = String(tasks.length);
+  const total = document.querySelector('#total-stat'), open = document.querySelector('#open-stat'), done = document.querySelector('#done-stat');
+  if (total) total.textContent = String(tasks.length); if (open) open.textContent = String(tasks.filter(t => !t.done).length); if (done) done.textContent = String(tasks.filter(t => t.done).length);
+  renderBoard(); renderTimeline(); renderDependencies(); refreshFilters();
+}
+refreshFilters(); render();

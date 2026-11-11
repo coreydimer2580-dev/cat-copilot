@@ -1,0 +1,25 @@
+{
+  "schema": "cat-copilot-project-context-v1",
+  "purpose": "Privacy-conscious product backlog notes, not personal records or an execution manifest.",
+  "source": "User-provided C@T station backup summary",
+  "items": [
+    { "title": "Reviewable one-sentence task planning", "category": "Product", "summary": "Turn a plain-language request into a proposed task, role, priority, and next-step sequence; keep the result reviewable." },
+    { "title": "Local task memory and progress board", "category": "Product", "summary": "Track backlog, in-progress, waiting, and done work locally with export and visible status." },
+    { "title": "Parallel worker planning", "category": "Product", "summary": "Represent independent jobs as separate tasks and show their progress; require explicit configuration before connecting external workers." },
+    { "title": "Fold-friendly responsive interface", "category": "Quality", "summary": "Keep the taskbar, panels, and controls usable at narrow cover-screen and wide inner-screen sizes." },
+    { "title": "Local-first memory and backup", "category": "Data", "summary": "Explain what is stored locally, provide a user-triggered export, and do not claim cloud backup or encryption that has not been implemented." },
+    { "title": "Truth and completion checks", "category": "Quality", "summary": "Separate proposed, in-progress, verified, and completed work; do not mark a task done just because a plan was generated." },
+    { "title": "Plain-language explanations", "category": "Writing", "summary": "Explain app states and technical terms in simple language alongside concise labels." },
+    { "title": "Safe public information pathways", "category": "Research", "summary": "For earth imagery or science topics, point to reputable public information and mark research as unverified until checked." },
+    { "title": "Explicit human approval for consequential actions", "category": "Safety", "summary": "Keep payments, account access, messages, deletion, medical decisions, and other external or consequential actions behind explicit user review." }
+  ],
+  "excludedFromAppContext": [
+    "Personal identity and insurance claim documents",
+    "Payment card numbers, CVVs, balances, banking or payment credentials",
+    "API keys, passwords, and other secrets",
+    "Device-specific diagnostic identifiers and detailed memory logs",
+    "Installed application/package inventories",
+    "Unverified claims of external account access, financial activity, storage sync, or compliance certification",
+    "Instructions that could enable cyber abuse or hazardous biological work"
+  ]
+}
