@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131c">
+  <title>C@T Copilot — Truth &amp; Reasoning Lab</title>
+  <link rel="stylesheet" href="reasoning.css">
+  <script src="reasoning.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Return to C@T Copilot planner"><span class="brand-icon">C@T</span><span>Copilot</span></a>
+    <span class="privacy"><span class="dot"></span> Local only · No AI providers connected</span>
+  </header>
+  <main class="shell">
+    <section class="intro">
+      <p class="eyebrow">HONESTY OVER HYPE</p>
+      <h1>Truth &amp; <span>Reasoning Lab</span></h1>
+      <p class="lede">Explore a request through several thinking lenses, record what is known versus uncertain, and look for a constructive, safe next step. This is a transparent local planning aid—not a connected AI or an automatic fact-checker.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="plan-title">
+      <div class="panel-heading"><div><p class="eyebrow">ONE SENTENCE IN</p><h2 id="plan-title">Plan the next step</h2></div></div>
+      <form id="plan-form">
+        <label for="request">What are you trying to achieve?</label>
+        <textarea id="request" maxlength="1000" required placeholder="Describe the goal in plain words…"></textarea>
+        <label for="lens">Thinking lens</label>
+        <select id="lens">
+          <option value="first-principles">First principles — define the goal and constraints</option>
+          <option value="pros-cons">Pros and cons — compare benefits, costs, and trade-offs</option>
+          <option value="evidence">Evidence check — separate facts, assumptions, and unknowns</option>
+          <option value="user-impact">People-first — consider who is affected and how</option>
+        </select>
+        <button class="primary" type="submit">Generate a reviewable plan</button>
+      </form>
+      <div id="plan-result" class="result" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <section class="panel" aria-labelledby="truth-title">
+      <div class="panel-heading"><div><p class="eyebrow">NO INVENTED CERTAINTY</p><h2 id="truth-title">Truth notes</h2></div></div>
+      <p class="hint">Record a claim with where it came from and whether it is checked. C@T does not verify claims by itself.</p>
+      <form id="truth-form" class="entry-form">
+        <label for="claim">Claim or question</label><input id="claim" maxlength="400" required placeholder="What should be checked?">
+        <label for="source">Source or evidence (optional)</label><input id="source" maxlength="250" placeholder="Link, document name, or ‘not checked’">
+        <label for="confidence">Status</label><select id="confidence"><option value="unknown">Unknown / not checked</option><option value="reported">Reported by a source</option><option value="supported">Supported by cited evidence</option><option value="disputed">Conflicting evidence</option></select>
+        <button class="primary" type="submit">Save note locally</button>
+      </form>
+      <ul id="truth-list" class="note-list" aria-live="polite"></ul>
+    </section>
+
+    <section class="panel" aria-labelledby="language-title">
+      <div class="panel-heading"><div><p class="eyebrow">YOUR WORDS, YOUR CONTROL</p><h2 id="language-title">Plain-language glossary</h2></div></div>
+      <p class="hint">Teach this browser your preferred meaning for a term. Entries remain local and can be edited or removed. This is user-defined vocabulary, not model training.</p>
+      <form id="glossary-form" class="entry-form">
+        <label for="term">Term</label><input id="term" maxlength="80" required placeholder="e.g. backlog">
+        <label for="meaning">Meaning in your words</label><input id="meaning" maxlength="240" required placeholder="e.g. the list of jobs still waiting">
+        <button class="primary" type="submit">Save term locally</button>
+      </form>
+      <ul id="glossary-list" class="note-list" aria-live="polite"></ul>
+    </section>
+
+    <section class="notice" aria-label="How this page handles limits">
+      <strong>When a requested method is unsafe or unavailable</strong>
+      <p>C@T should say what it cannot do, avoid pretending otherwise, and offer a legitimate nearby route when possible—such as a toy example, authorized test environment, public documentation, or a non-sensitive planning task. It must not disguise prohibited instructions or route around safety controls.</p>
+      <p>This page does not contact or learn from other AI services. You may compare their answers yourself, using source notes above; review terms of service and do not paste secrets or private records.</p>
+    </section>
+  </main>
+</body>
+</html>
